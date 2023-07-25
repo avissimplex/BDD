@@ -41,7 +41,25 @@ public class MoneyTransferTest {
                 actualBalanceFirstCard);
         assertEquals(expectedBalanceSecondCard,
                 actualBalanceSecondCard);
-
     }
+@Test
+        void shouldTransferFromFirstToSecondInvalidAmount() {
+            var firstCardInfo = getFirstCardInfo();
+            var secondCardInfo = getSecondCardInfo();
+            var firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
+            var secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
+            var amount = generateInvalidAmount(firstCardBalance);
+            var expectedBalanceFirstCard = firstCardBalance;
+            var expectedBalanceSecondCard = secondCardBalance;
+            var transferPage = dashboardPage.selectCardToTransfer(secondCardInfo);
+            dashboardPage = transferPage.makeValidTransfer(String.valueOf(amount), firstCardInfo);
+            var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCardInfo);
+            var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCardInfo);
+            assertEquals(expectedBalanceFirstCard,
+                    actualBalanceFirstCard);
+            assertEquals(expectedBalanceSecondCard,
+                    actualBalanceSecondCard);
+        }
+
 }
 
